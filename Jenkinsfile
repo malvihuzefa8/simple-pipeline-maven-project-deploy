@@ -1,16 +1,9 @@
+```groovy
 pipeline {
     agent any
 
     tools {
         maven 'maven-ci-server'
-    }
-
-    parameters {
-        choice(
-            name: 'ENVIRONMENT',
-            choices: ['dev', 'prod'],
-            description: 'Select the environment to deploy'
-        )
     }
 
     stages {
@@ -27,46 +20,24 @@ pipeline {
             }
         }
 
-        stage('Deploy to Dev') {
-            when {
-                expression {
-                    params.ENVIRONMENT == 'dev'
-                }
-            }
-
+        stage('Docker Build') {
             steps {
-                deploy(
-                    adapters: [
-                        tomcat9(
-                            url: 'http://3.110.185.128:8081/',
-                            credentialsId: 'tomcat'
-                        )
-                    ],
-                    war: 'target/*.war',
-                    contextPath: 'myapp-dev-env'
-                )
+                sh 'docker build -t myapp:dev .'
             }
         }
 
-        stage('Deploy to Prod') {
-            when {
-                expression {
-                    params.ENVIRONMENT == 'prod'
-                }
-            }
-
+        stage('Deploy to Dev') {
             steps {
-                deploy(
-                    adapters: [
-                        tomcat9(
-                            url: 'http://3.110.185.128:8081/',
-                            credentialsId: 'tomcat'
-                        )
-                    ],
-                    war: 'target/*.war',
-                    contextPath: 'myapp-prod-env'
-                )
+                sh '''
+                    docker rm -f myapp-dev 2>/dev/null || true
+
+                    docker run -d \
+                        --name myapp-dev \
+                        -p 8082:8080 \
+                        myapp:dev
+                '''
             }
         }
     }
 }
+```
