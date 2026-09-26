@@ -18,7 +18,12 @@ pipeline {
                 archiveArtifacts artifacts: 'target/*.war'
             }
         }
-
+        stage('Debug') {
+            steps {
+                sh 'hostname; whoami; echo $PATH; which git;'
+            }
+        }
+        
         stage('Docker Build') {
             steps {
                 sh 'docker build -t myapp:dev .'
