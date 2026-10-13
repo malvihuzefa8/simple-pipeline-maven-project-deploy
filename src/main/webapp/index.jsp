@@ -106,7 +106,7 @@
                         <div class="w3-col m6">
                             <a href="https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_templates_blog&stacked=h"
                                 target="_blank" class="w3-button w3-padding-large w3-dark-grey" style="width:98.5%">More
-                                Templates »
+                                Templates»
                             </a>
                         </div>
                     </div>
