@@ -114,7 +114,7 @@
             </div>
         </div>
         <footer class="w3-container w3-theme" style="padding:32px">
-            <p>Footer information goes here</p>
+            <p>Footer information goes here.</p>
         </footer>
     </div>
     <script type="text/javascript" src="./arquivojs.js"></script>
